@@ -9,7 +9,7 @@
 * JavaScript
 * Position
 * Адаптивная верстка
-[Проект на GitHub Pages](https://akrivonogova.github.io/russian-travel/)
+[Проект на GitHub Pages](https://akrivonogova.github.io/mesto/)
 
 
 
