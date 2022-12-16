@@ -11,3 +11,15 @@
 @import url(../blocks/profile/__description/profile__description.css);
 @import url(../blocks/profile/__edit-button/profile__edit-button.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
+@import url(../blocks/elements/__list/elements__list.css);
+@import url(../blocks/element/__image/element__image.css);
+@import url(../blocks/element/element.css);
+@import url(../blocks/element/__name/element__name.css);
+@import url(../blocks/element/__description-container/element__description-container.css);
+@import url(../blocks/element/__like/element__like.css);
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__copyright/footer__copyright.css);
+@import url(../blocks/element/__like/active/element__like_active.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__container/popup__container.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
