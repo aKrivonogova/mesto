@@ -12,3 +12,19 @@
     top: -40px;
     right: -40px;
 }
+
+.popup__close-button:hover {
+    opacity: 0.6;
+    transition: opacity 0.2s linear;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .popup__close-button{
+        width: 20px;
+        height: 20px;
+        right: 0;
+        top: -36px;
+        background-size: 20px 20px;
+    }
+}

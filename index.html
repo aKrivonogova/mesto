@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +7,6 @@
     <title>Место</title>
     <link rel="stylesheet" href="./pages/index.css">
 </head>
-
 <body class="body">
     <div class="page">
         <header class="header">
@@ -82,20 +80,20 @@
         <footer class="footer">
             <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
         </footer>
-        <div class="popup popup_opened">
+        <div class="popup">
             <div class="popup__container">
-                <button class="popup__close-button" type="button">
+                <button class="popup__close-button" type="button" >
                 </button>
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <form action="#" method="post" class="form" name="formEdit">
-                    <input type="text" class="form__input">
-                    <input type="text" class="form__input">
-                    <button class="form__button">Сохранить</button>
+                    <input type="text" id="userName" class="form__input">
+                    <input type="text" id="userJobDescription" class="form__input">
+                    <button class="form__button" id="saveButton">Сохранить</button>
                 </form>
             </div>
         </div>
     </div>
-
+    <script src="./script.js"></script>
 </body>
 
 </html>
