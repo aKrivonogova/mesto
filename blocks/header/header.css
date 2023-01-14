@@ -4,14 +4,13 @@
     margin-top: 0;
     padding-top: 45px;
     min-height: 73px;
-    border-bottom: 1px solid #545454;
+    border-bottom: 1px solid rgba(84, 84, 84, .7);
     margin-bottom: 0;
-    opacity: 0.7;
 }
 
 @media (max-width: 900px) {
     .header {
-        max-width: 580px;
+        max-width: 581px;
     }
 }
 

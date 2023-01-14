@@ -1,5 +1,6 @@
- .element__image {
-     width: 282px;
-     height: 282px;
-     border-radius: 10px 10px 0px 0px;
- }
+.element__image {
+    width: 282px;
+    height: 282px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}

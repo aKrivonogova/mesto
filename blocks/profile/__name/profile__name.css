@@ -1,5 +1,4 @@
 .profile__name {
-    margin-bottom: 0;
     font-family: Inter, Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: 500;
@@ -11,6 +10,13 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+@media (max-width: 900px) {
+    .profile__name {
+        font-size: 30px;
+        max-width: 210px;
+    }
 }
 
 @media (max-width: 660px) {
