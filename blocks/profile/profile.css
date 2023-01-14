@@ -1,13 +1,19 @@
-.profile{
+.profile {
     display: flex;
     max-width: 880px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     justify-content: space-between;
 }
 
-@media (max-width: 600px) {
-    .profile{
+@media (max-width: 900px) {
+    .profile {
+        justify-content: space-around;
+        max-width: 720px;
+    }
+}
+
+@media (max-width: 660px) {
+    .profile {
         flex-direction: column;
     }
 }

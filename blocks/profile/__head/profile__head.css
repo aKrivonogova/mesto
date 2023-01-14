@@ -1,10 +1,10 @@
-.profile__head{
+.profile__head {
     display: flex;
     width: 336px;
     margin-top: 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 660px) {
     .profile__head {
         max-width: 282px;
         justify-content: center;

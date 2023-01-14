@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Место</title>
     <link rel="stylesheet" href="./pages/index.css">
 </head>
+
 <body class="body">
     <div class="page">
         <header class="header">
@@ -21,14 +23,14 @@
                             <h1 class="profile__name">
                                 Жак-Ив Кусто
                             </h1>
-                            <button class="profile__edit-button"></button>
+                            <button type="button" class="profile__edit-button"></button>
                         </div>
-                        <p class="profile__description">
+                        <h2 class="profile__description">
                             Исследователь океана
-                        </p>
+                        </h2>
                     </div>
                 </div>
-                <button class="profile__add-button"></button>
+                <button type="button" class="profile__add-button"></button>
             </section>
             <section class="elements">
                 <ul class="elements__list">
@@ -36,42 +38,42 @@
                         <img class="element__image" src="./images/alpy.jfif" alt="Картинка Альпы">
                         <div class="element__description-container">
                             <h2 class="element__name">Карачаевск</h2>
-                            <button class="element__like"></button>
+                            <button type="button" class="element__like"></button>
                         </div>
                     </li>
                     <li class="element">
                         <img class="element__image" src="./images/Amsterdam.jfif" alt="Картинка Амстердам">
                         <div class="element__description-container">
                             <h2 class="element__name">Амстердам</h2>
-                            <button class="element__like"></button>
+                            <button type="button" class="element__like"></button>
                         </div>
                     </li>
                     <li class="element">
                         <img class="element__image" src="./images/Hokkaydo.jpg" alt="Картинка Хоккайдо">
                         <div class="element__description-container">
                             <h2 class="element__name">Хоккайдо</h2>
-                            <button class="element__like"></button>
+                            <button type="button" class="element__like"></button>
                         </div>
                     </li>
                     <li class="element">
                         <img class="element__image" src="./images/Madrid.jpg" alt="Картинка Мадрид">
                         <div class="element__description-container">
                             <h2 class="element__name">Мадрид</h2>
-                            <button class="element__like"></button>
+                            <button type="button" class="element__like"></button>
                         </div>
                     </li>
                     <li class="element">
                         <img class="element__image" src="./images/tokio.jpg" alt="Картинка Токио">
                         <div class="element__description-container">
                             <h2 class="element__name">Токио</h2>
-                            <button class="element__like"></button>
+                            <button type="button" class="element__like"></button>
                         </div>
                     </li>
                     <li class="element">
                         <img class="element__image" src="./images/Parisimage.jpg" alt="Картинка Париж">
                         <div class="element__description-container">
                             <h2 class="element__name">Париж</h2>
-                            <button class="element__like"></button>
+                            <button type="button" class="element__like"></button>
                         </div>
                     </li>
                 </ul>
@@ -82,13 +84,13 @@
         </footer>
         <div class="popup">
             <div class="popup__container">
-                <button class="popup__close-button" type="button" >
+                <button class="popup__close-button" type="button">
                 </button>
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <form action="#" method="post" class="form" name="formEdit">
-                    <input type="text" id="userName" class="form__input">
-                    <input type="text" id="userJobDescription" class="form__input">
-                    <button class="form__button" id="saveButton">Сохранить</button>
+                    <input name="username" type="text" id="userName" class="form__input">
+                    <input name="jobdescription" type="text" id="userJobDescription" class="form__input">
+                    <button type="submit" class="form__button" id="saveButton">Сохранить</button>
                 </form>
             </div>
         </div>

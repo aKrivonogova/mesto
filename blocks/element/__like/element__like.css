@@ -8,8 +8,8 @@
     appearance: none;
     border: none;
     background-color: transparent;
+    margin-right: 6px;
 }
-
 
 .element__like:hover {
     opacity: 0.5;

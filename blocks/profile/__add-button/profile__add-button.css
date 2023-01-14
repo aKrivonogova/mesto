@@ -7,15 +7,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 0;
     appearance: none;
     background-color: transparent;
     background-image: url(../../../images/plus.svg);
     background-repeat: no-repeat;
-    background-size: 22px 22px;
+    background-size: 22px;
     background-position: center;
-    margin-top: 75px;
-    margin-bottom: 0;
+    margin: 75px 0 0;
 }
 
 .profile__add-button:hover {
@@ -24,12 +22,10 @@
     cursor: pointer;
 }
 
-@media (max-width:600px) {
-    .profile__add-button{
-        margin-left: auto;
-        margin-right: auto;
+@media (max-width: 660px) {
+    .profile__add-button {
+        margin: 0 auto;
         margin-top: 36px;
         width: 282px;
     }
-    
 }
