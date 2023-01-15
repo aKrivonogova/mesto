@@ -1,21 +1,24 @@
 
-let editButtom = document.querySelector('.profile__edit-button');
+let editButton = document.querySelector('.profile__edit-button');
 let profileName = document.querySelector('.profile__name');
 let popup = document.querySelector('.popup');
 let profileDescriptionJob = document.querySelector('.profile__description');
 let closeButton = document.querySelector('.popup__close-button');
-let inputProfileName = document.getElementById('userName');
-let inputDescriptionJob = document.getElementById('userJobDescription');
-let saveDataButton = document.getElementById('saveButton');
-let elemetsList = document.querySelector('.elements__list');
+let inputName = document.getElementById('userName');
+let inputDescription = document.getElementById('userJobDescription');
+let form = document.querySelector('.form');
 
-inputProfileName.value = profileName.textContent.trim();
-inputDescriptionJob.value = profileDescriptionJob.textContent.trim();
+// Вносим данные из верстки в инпуты и убираем лишние пробелы 
+function fillInputsData() {
+    inputName.value = profileName.textContent.trim();
+    inputDescription.value = profileDescriptionJob.textContent.trim();
+}
 
 function handleFormSubmit(evt) {
     evt.preventDefault();
-    profileName.textContent = inputProfileName.value;
-    profileDescriptionJob.textContent = inputDescriptionJob.value;
+    profileName.textContent = inputName.value;
+    profileDescriptionJob.textContent = inputDescription.value;
+    closePopup();
 }
 
 function closePopup() {
@@ -23,16 +26,12 @@ function closePopup() {
 }
 
 function openPopup() {
+    fillInputsData();
     popup.classList.add('popup_opened');
 }
 
-elemetsList.querySelectorAll('.element__like').forEach(element => {
-    element.addEventListener('click', () => {
-        element.classList.toggle('element__like_active')
-    })
-});
 
-saveDataButton.addEventListener('click', handleFormSubmit);
+form.addEventListener('submit', handleFormSubmit);
 closeButton.addEventListener('click', closePopup);
-editButtom.addEventListener('click', openPopup);
+editButton.addEventListener('click', openPopup);
 
