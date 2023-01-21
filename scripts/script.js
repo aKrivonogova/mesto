@@ -13,7 +13,10 @@ let addButton = document.getElementById('profile__add-button');
 let inputCardName = document.getElementById('cardName');
 let inputCardImage = document.getElementById('cardImageSrc');
 let formAdd = document.getElementById('formAdd');
-
+let formEdit = document.getElementById('formEdit');
+let popupImage = document.getElementById('popup-image');
+let popupImageSrc = document.querySelector('popup__image');
+let popupImageDescription = document.querySelector('.popup__image-description');
 
 
 const initialCards = [
@@ -43,54 +46,51 @@ const initialCards = [
     }
 ];
 
-const fillTemplateFromArray = (listItem) => {
-    let cardElement = cloneTemplate();
-    getElementVelue(cardElement, '.element__name').textContent = listItem.name;
-    getElementVelue(cardElement, '.element__image').src = listItem.link;
-    return cardElement;
-};
-
-const getElementVelue = (element, className) => {
+// получаем узел 
+const getNode = (element, className) => {
     return element.querySelector(`${className}`);
-}
-
-const fillTemplateEnteredData = () => {
-    let cardElement = cloneTemplate();
-    getElementVelue(cardElement, '.element__name').textContent = getInputValue(inputCardName);
-    getElementVelue(cardElement, '.element__image').src = getInputValue(inputCardImage);
-    return cardElement;
-}
-
-
-const cloneTemplate = () => {
-    let templateCard = getElementVelue(document, '#mesto').content;
-    let cardElement = getElementVelue(templateCard, '.element').cloneNode(true);
-    return cardElement;
 };
 
+// Получаем данные из инпута
 const getInputValue = (inputElement) => {
     return inputElement.value;
+};
+
+// Клонируем template
+const cloneTemplate = () => {
+    let templateElement = getNode(document, '#mesto').content;
+    let clonedElement = getNode(templateElement, '.element').cloneNode(true);
+    return clonedElement;
+};
+// Создаем новый элемент 
+const createElement = (itemElementLink, itemElementName) => {
+    let cardElement = cloneTemplate();
+    getNode(cardElement, '.element__image').src = itemElementLink;
+    getNode(cardElement, '.element__image').alt = itemElementName;
+    getNode(cardElement, '.element__name').textContent = itemElementName;
+    resetForm(formAdd);
+    return cardElement;
+}
+// Добавляем на страницу карточки с данными из массива 
+const appendElementsFromArray = () => {
+    initialCards.forEach((elementItem) => {
+        elementsList.append(createElement(elementItem.link, elementItem.name));
+    });
+};
+// Очищаем форму 
+const resetForm = (form) => {
+    form.reset();
 }
 
-const deleteCard = (itemCard) => {
-    itemCard.parentNode.remove;
-}
+appendElementsFromArray();
 
-const addCardToList = (evt) => {
-    evt.preventDefault();
-    elementsList.prepend(fillTemplateEnteredData());
-    closePopup();
-}
-
-initialCards.forEach((listItem) => {
-    elementsList.append(fillTemplateFromArray(listItem));
-});
-
+// Заполняем инпуты попапа данными профиля 
 const fillInputsData = () => {
     inputName.value = profileName.textContent.trim();
     inputDescription.value = profileJob.textContent.trim();
 }
 
+// Изменение данных профиля 
 const handleFormSubmit = (evt) => {
     evt.preventDefault();
     profileName.textContent = getInputValue(inputName);
@@ -98,45 +98,68 @@ const handleFormSubmit = (evt) => {
     closePopup();
 };
 
-const likeCard = (likeItem) => {
-    likeItem.classList.toggle('element__like_active');
-}
+// Добавляем новую карточку на страницу 
+const appendElementViaPopup = (evt) => {
+    evt.preventDefault();
+    elementsList.prepend(createElement(getInputValue(inputCardImage), getInputValue(inputCardName)));
+    closePopup();
+};
 
-elementsList.querySelectorAll('.element__delete').forEach((item) => {
-    item.addEventListener('click', () => {
-        deleteCard(item);
-    })
-})
+// Заполняем попап с картинкой данными из элемента 
+const fiillPopupImage = (imageElement) => {
+    popupImage.querySelector('.popup__image').src = imageElement.getAttribute('src');
+    popupImage.querySelector('.popup__image-description').textContent = imageElement.getAttribute('alt');
+};
 
-elementsList.querySelectorAll('.element__like').forEach((likeItem) => {
-    likeItem.addEventListener('click', () => {
-        likeCard(likeItem);
-    });
-});
-
+// Открытие попапа
+const openPopup = (popupElement) => {
+    popupElement.classList.add('popup_opened');
+};
+// Закрытие попапа
 const closePopup = () => {
     popupList.forEach((popupElement) => {
         popupElement.classList.remove('popup_opened');
     });
 };
-
-const openPopup = (popupElement) => {
-    popupElement.classList.add('popup_opened');
+// Лайк для карточки 
+const likeCard = (likeItem) => {
+    likeItem.classList.toggle('element__like_active');
+}
+// Удалить карточку
+const deleteCard = (itemCard) => {
+    itemCard.parentElement.remove();
 };
-
-form.addEventListener('submit', handleFormSubmit);
-
-closeButtonList.forEach((buttonItem) => {
-    buttonItem.addEventListener('click', closePopup);
-});
-
-editButton.addEventListener('click', () => {
-    fillInputsData();
-    openPopup(popupEdit)
-});
 
 addButton.addEventListener('click', () => {
     openPopup(popupAdd);
 });
 
-formAdd.addEventListener('submit', addCardToList); 
+formEdit.addEventListener('submit', handleFormSubmit);
+formAdd.addEventListener('submit', appendElementViaPopup);
+
+editButton.addEventListener('click', () => {
+    fillInputsData();
+    openPopup(popupEdit);
+})
+
+closeButtonList.forEach((itemButton) => {
+    itemButton.addEventListener('click', closePopup);
+});
+
+elementsList.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('element__like')) {
+        likeCard(evt.target);
+    };
+    if (evt.target.classList.contains('element__delete')) {
+        deleteCard(evt.target);
+    };
+    if (evt.target.classList.contains('element__image')) {
+        fiillPopupImage(evt.target);
+        openPopup(popupImage);
+    }
+});
+
+
+
+
+

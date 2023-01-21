@@ -41,19 +41,26 @@
         <footer class="footer">
             <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
         </footer>
-        <div class="popup" id="popup_edit">
+        <div class="popup popup_function_edit" id="popup_edit">
             <div class="popup__container">
                 <button class="popup__close-button" type="button">
                 </button>
                 <h2 class="popup__title">Редактировать профиль</h2>
-                <form action="#" method="post" class="form" name="formEdit">
+                <form action="#" method="post" class="form" name="formEdit" id="formEdit">
                     <input name="username" type="text" id="userName" class="form__input">
                     <input name="jobdescription" type="text" id="userJobDescription" class="form__input">
                     <button type="submit" class="form__submit-button" id="saveButton">Сохранить</button>
                 </form>
             </div>
         </div>
-        <div class="popup" id="popup_add">
+        <div class="popup popup_function_image" id="popup-image">
+            <div class="popup__container-image">
+                <img src="#" class="popup__image">
+                <p class="popup__image-description"></p>
+                <button class="popup__close-button" type="button"></button>
+            </div>
+        </div>
+        <div class="popup popup_function_add" id="popup_add">
             <div class="popup__container">
                 <button class="popup__close-button" type="button">
                 </button>
@@ -62,13 +69,13 @@
                     <input name="cardName" type="text" id="cardName" class="form__input" placeholder="Название">
                     <input name="cardImageSrc" type="text" id="cardImageSrc" class="form__input"
                         placeholder="Ссылка на картинку">
-                    <button type="submit" class="form__submit-button" id="saveCardButton">Сохранить</button>
+                    <button type="submit" class="form__submit-button" id="saveCardButton">Создать</button>
                 </form>
             </div>
         </div>
         <template id="mesto">
             <li class="element">
-                <img class="element__image" src="#">
+                <img class="element__image" type="button" aria-label="удалить данную карточку" src="#">
                 <button class="element__delete"></button>
                 <div class="element__description-container">
                     <h2 class="element__name"></h2>
