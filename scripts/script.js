@@ -136,7 +136,7 @@ addButton.addEventListener('click', () => {
 formEdit.addEventListener('submit', handleFormSubmit);
 formAdd.addEventListener('submit', (evt) => {
     appendElementViaPopup(evt);
-    resetForm();
+    resetForm(formAdd);
 });
 
 editButton.addEventListener('click', () => {
