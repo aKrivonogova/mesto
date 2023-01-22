@@ -46,9 +46,9 @@
                 <button class="popup__close-button" type="button">
                 </button>
                 <h2 class="popup__title">Редактировать профиль</h2>
-                <form action="#" method="post" class="form" name="formEdit" id="formEdit">
-                    <input name="username" type="text" id="userName" class="form__input">
-                    <input name="jobdescription" type="text" id="userJobDescription" class="form__input">
+                <form action="#" method="post" class="form form_function_edit" name="formEdit" id="formEdit">
+                    <input name="username" type="text" id="userName" class="form__input form_input_profile-name">
+                    <input name="jobdescription" type="text" id="userJobDescription" class="form__input form_input_description">
                     <button type="submit" class="form__submit-button" id="saveButton">Сохранить</button>
                 </form>
             </div>
@@ -65,9 +65,9 @@
                 <button class="popup__close-button" type="button">
                 </button>
                 <h2 class="popup__title">Новое место</h2>
-                <form action="#" method="post" class="form" name="formAddCard" id="formAdd">
-                    <input name="cardName" type="text" id="cardName" class="form__input" placeholder="Название">
-                    <input name="cardImageSrc" type="text" id="cardImageSrc" class="form__input"
+                <form action="#" method="post" class="form form_function_add" name="formAddCard" id="formAdd">
+                    <input name="cardName" type="text" id="cardName" class="form__input form__input_name" placeholder="Название">
+                    <input name="cardImageSrc" type="text" id="cardImageSrc" class="form__input form_input_src"
                         placeholder="Ссылка на картинку">
                     <button type="submit" class="form__submit-button" id="saveCardButton">Создать</button>
                 </form>

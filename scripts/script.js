@@ -1,22 +1,22 @@
-let editButton = document.querySelector('.profile__edit-button');
-let profileName = document.querySelector('.profile__name');
-let popupList = document.querySelectorAll('.popup');
-let popupEdit = document.getElementById('popup_edit');
-let profileJob = document.querySelector('.profile__description');
-let closeButtonList = document.querySelectorAll('.popup__close-button');
-let inputName = document.getElementById('userName');
-let inputDescription = document.getElementById('userJobDescription');
-let form = document.querySelector('.form');
-let elementsList = document.querySelector('.elements__list');
-let popupAdd = document.getElementById('popup_add');
-let addButton = document.getElementById('profile__add-button');
-let inputCardName = document.getElementById('cardName');
-let inputCardImage = document.getElementById('cardImageSrc');
-let formAdd = document.getElementById('formAdd');
-let formEdit = document.getElementById('formEdit');
-let popupImage = document.getElementById('popup-image');
-let popupImageSrc = document.querySelector('popup__image');
-let popupImageDescription = document.querySelector('.popup__image-description');
+const editButton = document.querySelector('.profile__edit-button');
+const profileName = document.querySelector('.profile__name');
+const popupList = document.querySelectorAll('.popup');
+const popupEdit = document.querySelector('.popup_function_edit');
+const profileJob = document.querySelector('.profile__description');
+const closeButtonList = document.querySelectorAll('.popup__close-button');
+const inputName = document.querySelector('.form_input_profile-name');
+const inputDescription = document.querySelector('.form_input_description');
+const formEdit = document.querySelector('.form_function_edit');
+const elementsList = document.querySelector('.elements__list');
+const popupAdd = document.querySelector('.popup_function_add');
+const addButton = document.querySelector('.profile__add-button');
+const inputCardName = document.querySelector('.form__input_name');
+const inputCardImage = document.querySelector('.form_input_src');
+const formAdd = document.querySelector('.form_function_add');
+const popupImage = document.querySelector('.popup_function_image');
+const popupImageSrc = document.querySelector('.popup__image');
+const popupImageDescription = document.querySelector('.popup__image-description');
+const templateElement = document.querySelector('#mesto').content;
 
 
 const initialCards = [
@@ -58,7 +58,6 @@ const getInputValue = (inputElement) => {
 
 // Клонируем template
 const cloneTemplate = () => {
-    let templateElement = getNode(document, '#mesto').content;
     let clonedElement = getNode(templateElement, '.element').cloneNode(true);
     return clonedElement;
 };
@@ -68,7 +67,6 @@ const createElement = (itemElementLink, itemElementName) => {
     getNode(cardElement, '.element__image').src = itemElementLink;
     getNode(cardElement, '.element__image').alt = itemElementName;
     getNode(cardElement, '.element__name').textContent = itemElementName;
-    resetForm(formAdd);
     return cardElement;
 }
 // Добавляем на страницу карточки с данными из массива 
@@ -107,8 +105,9 @@ const appendElementViaPopup = (evt) => {
 
 // Заполняем попап с картинкой данными из элемента 
 const fiillPopupImage = (imageElement) => {
-    popupImage.querySelector('.popup__image').src = imageElement.getAttribute('src');
-    popupImage.querySelector('.popup__image-description').textContent = imageElement.getAttribute('alt');
+    popupImageSrc.src = imageElement.getAttribute('src');
+    popupImageSrc.alt = imageElement.getAttribute('src');
+    popupImageDescription.textContent = imageElement.getAttribute('alt');
 };
 
 // Открытие попапа
@@ -127,7 +126,7 @@ const likeCard = (likeItem) => {
 }
 // Удалить карточку
 const deleteCard = (itemCard) => {
-    itemCard.parentElement.remove();
+    itemCard.closest('.element').remove();
 };
 
 addButton.addEventListener('click', () => {
@@ -135,7 +134,10 @@ addButton.addEventListener('click', () => {
 });
 
 formEdit.addEventListener('submit', handleFormSubmit);
-formAdd.addEventListener('submit', appendElementViaPopup);
+formAdd.addEventListener('submit', (evt) => {
+    appendElementViaPopup(evt);
+    resetForm();
+});
 
 editButton.addEventListener('click', () => {
     fillInputsData();
@@ -158,8 +160,3 @@ elementsList.addEventListener('click', (evt) => {
         openPopup(popupImage);
     }
 });
-
-
-
-
-
