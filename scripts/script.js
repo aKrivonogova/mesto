@@ -58,15 +58,16 @@ const getInputValue = (inputElement) => {
 
 // Клонируем template
 const cloneTemplate = () => {
-    let clonedElement = getNode(templateElement, '.element').cloneNode(true);
+    const clonedElement = getNode(templateElement, '.element').cloneNode(true);
     return clonedElement;
 };
 // Создаем новый элемент 
 const createElement = (itemElementLink, itemElementName) => {
-    let cardElement = cloneTemplate();
+    const cardElement = cloneTemplate();
     getNode(cardElement, '.element__image').src = itemElementLink;
     getNode(cardElement, '.element__image').alt = itemElementName;
     getNode(cardElement, '.element__name').textContent = itemElementName;
+
     return cardElement;
 }
 // Добавляем на страницу карточки с данными из массива 
