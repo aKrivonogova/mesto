@@ -1,23 +1,49 @@
-const editButton = document.querySelector('.profile__edit-button');
-const profileName = document.querySelector('.profile__name');
-const popupList = document.querySelectorAll('.popup');
-const popupEdit = document.querySelector('.popup_function_edit');
-const profileJob = document.querySelector('.profile__description');
-const closeButtonList = document.querySelectorAll('.popup__close-button');
-const inputName = document.querySelector('.form__input_profile-name');
-const inputDescription = document.querySelector('.form__input_description');
-const formEdit = document.querySelector('.form_function_edit');
-const elementsList = document.querySelector('.elements__list');
-const popupAdd = document.querySelector('.popup_function_add');
-const addButton = document.querySelector('.profile__add-button');
-const inputCardName = document.querySelector('.form__input_name');
-const inputCardImage = document.querySelector('.form__input_src');
-const formAdd = document.querySelector('.form_function_add');
-const popupImage = document.querySelector('.popup_function_image');
-const popupImageSrc = document.querySelector('.popup__image');
-const popupImageDescription = document.querySelector('.popup__image-description');
-const templateElement = document.querySelector('#mesto').content;
+const listElementSelectors = {
+    "POPUPLIST": "popup",
+    'EDITBUTTON': "profile__edit-button",
+    "PROFILENAME": "profile__name",
+    "POPUPEDIT": "popup_function_edit",
+    "PROFILEDESCRIPTION": "profile__description",
+    "CLOSEBUTTONLIST": "popup__close-button",
+    "INPUTNAME": "form__input_profile-name",
+    "INPUTDESCRIPTION": "form__input_description",
+    "FORMEDIT": "form_function_edit",
+    "ELEMENTSLIST": "elements__list",
+    "POPUPADD": "popup_function_add",
+    "ADDBUTTON": "profile__add-button",
+    "INPUTCARDNAME": "form__input_name",
+    "INPUTCARDIMAGE": "form__input_src",
+    "FORMADD": "form_function_add",
+    "POPUPIMAGE": "popup_function_image",
+    "POPUPIMAGESRC": "popup__image",
+    "POPUPIMAGEDESCRIPTION": "popup__image-description",
+    "TEMPLATELEMENT": "mesto",
+    "ELEMENT": "element",
+    "ELEMENTIMAGE": "element__image",
+    "ELEMENTNAME": "element__name",
+    "ELEMENTLIKE": "element__like",
+    "ElEMENTDELETE": "element__delete"
+}
 
+const templateElement = document.querySelector('#' + listElementSelectors.TEMPLATELEMENT).content;
+const elementList = document.querySelector('.' + listElementSelectors.ELEMENTSLIST);
+const popupImage = document.querySelector('.' + listElementSelectors.POPUPIMAGE);
+const popupAdd = document.querySelector('.' + listElementSelectors.POPUPADD);
+const addButton = document.querySelector('.' + listElementSelectors.ADDBUTTON);
+const inputCardName = document.querySelector('.' + listElementSelectors.INPUTCARDNAME);
+const inputCardSrc = document.querySelector('.' + listElementSelectors.INPUTCARDIMAGE);
+const formAdd = document.querySelector('.' + listElementSelectors.FORMADD);
+const closeButtonList = document.querySelectorAll('.' + listElementSelectors.CLOSEBUTTONLIST);
+const popupList = document.querySelectorAll('.' + listElementSelectors.POPUPLIST);
+const popupEdit = document.querySelector('.' + listElementSelectors.POPUPEDIT);
+const editButton = document.querySelector('.' + listElementSelectors.EDITBUTTON);
+const profileName = document.querySelector('.' + listElementSelectors.PROFILENAME);
+const profileJob = document.querySelector('.' + listElementSelectors.PROFILEDESCRIPTION);
+const inputName = document.querySelector('.' + listElementSelectors.INPUTNAME);
+const inputDescription = document.querySelector('.' + listElementSelectors.INPUTDESCRIPTION);
+const formEdit = document.querySelector('.' + listElementSelectors.FORMEDIT);
+const popupImageSrc = document.querySelector('.' + listElementSelectors.POPUPIMAGESRC);
+const popupImageDescription = document.querySelector('.' + listElementSelectors.POPUPIMAGEDESCRIPTION);
 
 const initialCards = [
     {
@@ -46,50 +72,109 @@ const initialCards = [
     }
 ];
 
-// получаем узел 
-const getNode = (element, className) => {
-    return element.querySelector(`${className}`);
+const cloneTemplate = () => {
+    const clonedElement = templateElement.querySelector('.' + listElementSelectors.ELEMENT).cloneNode(true);
+    return clonedElement
 };
 
-// Получаем данные из инпута
 const getInputValue = (inputElement) => {
     return inputElement.value;
-};
-
-// Клонируем template
-const cloneTemplate = () => {
-    const clonedElement = getNode(templateElement, '.element').cloneNode(true);
-    return clonedElement;
-};
-// Создаем новый элемент 
-const createElement = (itemElementLink, itemElementName) => {
-    const cardElement = cloneTemplate();
-    getNode(cardElement, '.element__image').src = itemElementLink;
-    getNode(cardElement, '.element__image').alt = itemElementName;
-    getNode(cardElement, '.element__name').textContent = itemElementName;
-
-    return cardElement;
 }
-// Добавляем на страницу карточки с данными из массива 
-const appendElementsFromArray = () => {
-    initialCards.forEach((elementItem) => {
-        elementsList.append(createElement(elementItem.link, elementItem.name));
-    });
-};
-// Очищаем форму 
+
 const resetForm = (form) => {
     form.reset();
 }
-
-appendElementsFromArray();
-
-// Заполняем инпуты попапа данными профиля 
-const fillInputsData = () => {
-    inputName.value = profileName.textContent.trim();
-    inputDescription.value = profileJob.textContent.trim();
+const openPopup = (popupElement) => {
+    popupElement.classList.add('popup_opened');
+    document.addEventListener('keydown', escClickHandler);
+    popupElement.addEventListener('mousedown', overlayClickHandler);
 }
 
-// Изменение данных профиля 
+const closePopup = () => {
+    popupList.forEach((popupElement) => {
+        popupElement.classList.remove('popup_opened');
+        popupElement.removeEventListener('mousedown', overlayClickHandler);
+    });
+    
+    document.removeEventListener('keydown', escClickHandler);
+}
+
+const initLikeButtonClickHandler = (likeButton) => {
+    likeButton.addEventListener('click', () => {
+        likeButton.classList.toggle('element__like_active');
+    });
+};
+
+const initDeleteButtonClickHandler = (deleteButton) => {
+    deleteButton.addEventListener('click', () => {
+        deleteButton.closest('.element').remove();
+    });
+};
+
+const initOpnePopupHandler = (popupTrigger, popupElement) => {
+    popupTrigger.addEventListener('click', () => {
+        openPopup(popupElement);
+    });
+};
+
+const initClosePopupHandler = () => {
+    closeButtonList.forEach((closeBtn) => {
+        closeBtn.addEventListener('click', closePopup);
+    })
+}
+
+const transferMetaDataToPopup = (elementImage) => {
+    popupImageSrc.src = elementImage.getAttribute('src');
+    popupImageDescription.textContent = elementImage.getAttribute('alt');
+}
+
+const initPopupImageHandler = (elementImage) => {
+    elementImage.addEventListener('click', () => {
+        transferMetaDataToPopup(elementImage);
+        openPopup(popupImage);
+    });
+}
+
+const initTHisCard = (card) => {
+    const likeButton = card.querySelector('.' + listElementSelectors.ELEMENTLIKE);
+    const deleteButton = card.querySelector('.' + listElementSelectors.ElEMENTDELETE);
+    const elementImage = card.querySelector('.' + listElementSelectors.ELEMENTIMAGE);
+
+    initPopupImageHandler(elementImage);
+    initLikeButtonClickHandler(likeButton);
+    initDeleteButtonClickHandler(deleteButton);
+}
+
+const createCard = (destination, initCardName, initCardSrc) => {
+    const card = cloneTemplate();
+    card.querySelector('.' + listElementSelectors.ELEMENTIMAGE).src = initCardSrc;
+    card.querySelector('.' + listElementSelectors.ELEMENTNAME).textContent = initCardName;
+    card.querySelector('.' + listElementSelectors.ELEMENTIMAGE).alt = initCardName;
+    destination.prepend(card);
+    initTHisCard(card);
+};
+
+initialCards.forEach((cardItem) => {
+    createCard(elementList, cardItem.name, cardItem.link);
+});
+
+initOpnePopupHandler(addButton, popupAdd);
+initOpnePopupHandler(editButton, popupEdit);
+initClosePopupHandler();
+
+const addCardToPage = (evt) => {
+    evt.preventDefault();
+    createCard(elementList, getInputValue(inputCardName), getInputValue(inputCardSrc));
+    closePopup();
+}
+
+const transferMetaDataToInput = () => {
+    inputName.value = profileName.textContent.trim();
+    inputDescription.value = profileJob.textContent.trim();
+};
+
+transferMetaDataToInput();
+
 const handleFormSubmit = (evt) => {
     evt.preventDefault();
     profileName.textContent = getInputValue(inputName);
@@ -97,67 +182,21 @@ const handleFormSubmit = (evt) => {
     closePopup();
 };
 
-// Добавляем новую карточку на страницу 
-const appendElementViaPopup = (evt) => {
-    evt.preventDefault();
-    elementsList.prepend(createElement(getInputValue(inputCardImage), getInputValue(inputCardName)));
-    closePopup();
-};
-
-// Заполняем попап с картинкой данными из элемента 
-const fiillPopupImage = (imageElement) => {
-    popupImageSrc.src = imageElement.getAttribute('src');
-    popupImageSrc.alt = imageElement.getAttribute('src');
-    popupImageDescription.textContent = imageElement.getAttribute('alt');
-};
-
-// Открытие попапа
-const openPopup = (popupElement) => {
-    popupElement.classList.add('popup_opened');
-};
-// Закрытие попапа
-const closePopup = () => {
-    popupList.forEach((popupElement) => {
-        popupElement.classList.remove('popup_opened');
-    });
-};
-// Лайк для карточки 
-const likeCard = (likeItem) => {
-    likeItem.classList.toggle('element__like_active');
-}
-// Удалить карточку
-const deleteCard = (itemCard) => {
-    itemCard.closest('.element').remove();
-};
-
-addButton.addEventListener('click', () => {
-    openPopup(popupAdd);
-});
-
-formEdit.addEventListener('submit', handleFormSubmit);
 formAdd.addEventListener('submit', (evt) => {
-    appendElementViaPopup(evt);
+    addCardToPage(evt);
     resetForm(formAdd);
 });
 
-editButton.addEventListener('click', () => {
-    fillInputsData();
-    openPopup(popupEdit);
-})
+formEdit.addEventListener('submit', handleFormSubmit);
 
-closeButtonList.forEach((itemButton) => {
-    itemButton.addEventListener('click', closePopup);
-});
-
-elementsList.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('element__like')) {
-        likeCard(evt.target);
-    };
-    if (evt.target.classList.contains('element__delete')) {
-        deleteCard(evt.target);
-    };
-    if (evt.target.classList.contains('element__image')) {
-        fiillPopupImage(evt.target);
-        openPopup(popupImage);
+const overlayClickHandler = (evt) => {
+    if (evt.target.classList.contains('popup')) {
+        closePopup();
     }
-});
+}
+const escClickHandler = (evt) => {
+    if (evt.key === "Escape") {
+        closePopup();
+    }
+}
+
