@@ -20,6 +20,9 @@
 .form__input:last-of-type {
     margin-bottom: 47px;
 }
+.form__input:focus{
+    border: 3px solid #1E90FF;
+}
 
 @media (max-width: 600px) {
     .form__input {
