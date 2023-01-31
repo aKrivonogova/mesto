@@ -25,7 +25,6 @@ const validationSelectors = {
     formSelector: '.form',
     inputSelector: '.form__input',
     submitButtonSelector: '.form__submit-button',
-    inactiveButtonClass: 'form__submit-button_type_disabled',
     inputErrorClass: 'form__input_type-error',
     errorClass: 'form__input-error_active'
 }
