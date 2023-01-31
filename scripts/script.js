@@ -5,14 +5,10 @@ const listElementSelectors = {
     "POPUPEDIT": "popup_function_edit",
     "PROFILEDESCRIPTION": "profile__description",
     "CLOSEBUTTONLIST": "popup__close-button",
-    "INPUTNAME": "form__input_profile-name",
-    "INPUTDESCRIPTION": "form__input_description",
     "FORMEDIT": "form_function_edit",
     "ELEMENTSLIST": "elements__list",
     "POPUPADD": "popup_function_add",
     "ADDBUTTON": "profile__add-button",
-    "INPUTCARDNAME": "form__input_name",
-    "INPUTCARDIMAGE": "form__input_src",
     "FORMADD": "form_function_add",
     "POPUPIMAGE": "popup_function_image",
     "POPUPIMAGESRC": "popup__image",
@@ -25,52 +21,40 @@ const listElementSelectors = {
     "ElEMENTDELETE": "element__delete"
 }
 
-const templateElement = document.querySelector('#' + listElementSelectors.TEMPLATELEMENT).content;
-const elementList = document.querySelector('.' + listElementSelectors.ELEMENTSLIST);
+const validationSelectors = {
+    formSelector: '.form',
+    inputSelector: '.form__input',
+    submitButtonSelector: '.form__submit-button',
+    inactiveButtonClass: 'form__submit-button_type_disabled',
+    inputErrorClass: 'form__input_type-error',
+    errorClass: 'form__input-error_active'
+}
+
+const popupList = document.querySelectorAll('.' + listElementSelectors.POPUPLIST);
 const popupImage = document.querySelector('.' + listElementSelectors.POPUPIMAGE);
 const popupAdd = document.querySelector('.' + listElementSelectors.POPUPADD);
-const addButton = document.querySelector('.' + listElementSelectors.ADDBUTTON);
-const inputCardName = document.querySelector('.' + listElementSelectors.INPUTCARDNAME);
-const inputCardSrc = document.querySelector('.' + listElementSelectors.INPUTCARDIMAGE);
-const formAdd = document.querySelector('.' + listElementSelectors.FORMADD);
-const closeButtonList = document.querySelectorAll('.' + listElementSelectors.CLOSEBUTTONLIST);
-const popupList = document.querySelectorAll('.' + listElementSelectors.POPUPLIST);
 const popupEdit = document.querySelector('.' + listElementSelectors.POPUPEDIT);
-const editButton = document.querySelector('.' + listElementSelectors.EDITBUTTON);
-const profileName = document.querySelector('.' + listElementSelectors.PROFILENAME);
-const profileJob = document.querySelector('.' + listElementSelectors.PROFILEDESCRIPTION);
-const inputName = document.querySelector('.' + listElementSelectors.INPUTNAME);
-const inputDescription = document.querySelector('.' + listElementSelectors.INPUTDESCRIPTION);
-const formEdit = document.querySelector('.' + listElementSelectors.FORMEDIT);
 const popupImageSrc = document.querySelector('.' + listElementSelectors.POPUPIMAGESRC);
 const popupImageDescription = document.querySelector('.' + listElementSelectors.POPUPIMAGEDESCRIPTION);
 
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+const formEdit = document.querySelector('.' + listElementSelectors.FORMEDIT);
+const formAdd = document.querySelector('.' + listElementSelectors.FORMADD);
+
+const addButton = document.querySelector('.' + listElementSelectors.ADDBUTTON);
+const editButton = document.querySelector('.' + listElementSelectors.EDITBUTTON);
+const closeButtonList = document.querySelectorAll('.' + listElementSelectors.CLOSEBUTTONLIST);
+
+const inputName = document.querySelector('input[name="username"]');
+const inputDescription = document.querySelector('input[name="description"]');
+const inputCardName = document.querySelector('input[name="cardName"]');
+const inputCardSrc = document.querySelector('input[name="cardImageSrc"]');
+
+const profileName = document.querySelector('.' + listElementSelectors.PROFILENAME);
+const profileJob = document.querySelector('.' + listElementSelectors.PROFILEDESCRIPTION);
+
+const templateElement = document.querySelector('#' + listElementSelectors.TEMPLATELEMENT).content;
+const elementList = document.querySelector('.' + listElementSelectors.ELEMENTSLIST);
+const saveCardButton = formAdd.querySelector('.form__submit-button');
 
 const cloneTemplate = () => {
     const clonedElement = templateElement.querySelector('.' + listElementSelectors.ELEMENT).cloneNode(true);
@@ -95,7 +79,6 @@ const closePopup = () => {
         popupElement.classList.remove('popup_opened');
         popupElement.removeEventListener('mousedown', overlayClickHandler);
     });
-    
     document.removeEventListener('keydown', escClickHandler);
 }
 
@@ -108,12 +91,6 @@ const initLikeButtonClickHandler = (likeButton) => {
 const initDeleteButtonClickHandler = (deleteButton) => {
     deleteButton.addEventListener('click', () => {
         deleteButton.closest('.element').remove();
-    });
-};
-
-const initOpnePopupHandler = (popupTrigger, popupElement) => {
-    popupTrigger.addEventListener('click', () => {
-        openPopup(popupElement);
     });
 };
 
@@ -147,9 +124,11 @@ const initTHisCard = (card) => {
 
 const createCard = (destination, initCardName, initCardSrc) => {
     const card = cloneTemplate();
+
     card.querySelector('.' + listElementSelectors.ELEMENTIMAGE).src = initCardSrc;
     card.querySelector('.' + listElementSelectors.ELEMENTNAME).textContent = initCardName;
     card.querySelector('.' + listElementSelectors.ELEMENTIMAGE).alt = initCardName;
+
     destination.prepend(card);
     initTHisCard(card);
 };
@@ -158,8 +137,6 @@ initialCards.forEach((cardItem) => {
     createCard(elementList, cardItem.name, cardItem.link);
 });
 
-initOpnePopupHandler(addButton, popupAdd);
-initOpnePopupHandler(editButton, popupEdit);
 initClosePopupHandler();
 
 const addCardToPage = (evt) => {
@@ -173,7 +150,15 @@ const transferMetaDataToInput = () => {
     inputDescription.value = profileJob.textContent.trim();
 };
 
-transferMetaDataToInput();
+addButton.addEventListener('click', () => {
+    openPopup(popupAdd);
+})
+editButton.addEventListener('click', () => {
+    transferMetaDataToInput();
+    openPopup(popupEdit);
+})
+
+
 
 const handleFormSubmit = (evt) => {
     evt.preventDefault();
@@ -194,9 +179,11 @@ const overlayClickHandler = (evt) => {
         closePopup();
     }
 }
+
 const escClickHandler = (evt) => {
     if (evt.key === "Escape") {
         closePopup();
     }
 }
 
+enableValidation(validationSelectors);
