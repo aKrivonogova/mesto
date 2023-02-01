@@ -1,4 +1,4 @@
-const listElementSelectors = {
+const listElementClasses = {
     "POPUPLIST": "popup",
     'EDITBUTTON': "profile__edit-button",
     "PROFILENAME": "profile__name",
@@ -21,7 +21,7 @@ const listElementSelectors = {
     "ElEMENTDELETE": "element__delete"
 }
 
-const validationSelectors = {
+const settings = {
     formSelector: '.form',
     inputSelector: '.form__input',
     submitButtonSelector: '.form__submit-button',
@@ -29,34 +29,33 @@ const validationSelectors = {
     errorClass: 'form__input-error_active'
 }
 
-const popupList = document.querySelectorAll('.' + listElementSelectors.POPUPLIST);
-const popupImage = document.querySelector('.' + listElementSelectors.POPUPIMAGE);
-const popupAdd = document.querySelector('.' + listElementSelectors.POPUPADD);
-const popupEdit = document.querySelector('.' + listElementSelectors.POPUPEDIT);
-const popupImageSrc = document.querySelector('.' + listElementSelectors.POPUPIMAGESRC);
-const popupImageDescription = document.querySelector('.' + listElementSelectors.POPUPIMAGEDESCRIPTION);
+const popupList = document.querySelectorAll('.' + listElementClasses.POPUPLIST);
+const popupImage = document.querySelector('.' + listElementClasses.POPUPIMAGE);
+const popupAdd = document.querySelector('.' + listElementClasses.POPUPADD);
+const popupEdit = document.querySelector('.' + listElementClasses.POPUPEDIT);
+const popupImageSrc = document.querySelector('.' + listElementClasses.POPUPIMAGESRC);
+const popupImageDescription = document.querySelector('.' + listElementClasses.POPUPIMAGEDESCRIPTION);
+const formEdit = document.querySelector('.' + listElementClasses.FORMEDIT);
+const formAdd = document.querySelector('.' + listElementClasses.FORMADD);
 
-const formEdit = document.querySelector('.' + listElementSelectors.FORMEDIT);
-const formAdd = document.querySelector('.' + listElementSelectors.FORMADD);
-
-const addButton = document.querySelector('.' + listElementSelectors.ADDBUTTON);
-const editButton = document.querySelector('.' + listElementSelectors.EDITBUTTON);
-const closeButtonList = document.querySelectorAll('.' + listElementSelectors.CLOSEBUTTONLIST);
+const addButton = document.querySelector('.' + listElementClasses.ADDBUTTON);
+const editButton = document.querySelector('.' + listElementClasses.EDITBUTTON);
+const closeButtonList = document.querySelectorAll('.' + listElementClasses.CLOSEBUTTONLIST);
 
 const inputName = document.querySelector('input[name="username"]');
 const inputDescription = document.querySelector('input[name="description"]');
 const inputCardName = document.querySelector('input[name="cardName"]');
 const inputCardSrc = document.querySelector('input[name="cardImageSrc"]');
 
-const profileName = document.querySelector('.' + listElementSelectors.PROFILENAME);
-const profileJob = document.querySelector('.' + listElementSelectors.PROFILEDESCRIPTION);
+const profileName = document.querySelector('.' + listElementClasses.PROFILENAME);
+const profileJob = document.querySelector('.' + listElementClasses.PROFILEDESCRIPTION);
 
-const templateElement = document.querySelector('#' + listElementSelectors.TEMPLATELEMENT).content;
-const elementList = document.querySelector('.' + listElementSelectors.ELEMENTSLIST);
+const templateElement = document.querySelector('#' + listElementClasses.TEMPLATELEMENT).content;
+const elementList = document.querySelector('.' + listElementClasses.ELEMENTSLIST);
 const saveCardButton = formAdd.querySelector('.form__submit-button');
 
 const cloneTemplate = () => {
-    const clonedElement = templateElement.querySelector('.' + listElementSelectors.ELEMENT).cloneNode(true);
+    const clonedElement = templateElement.querySelector('.' + listElementClasses.ELEMENT).cloneNode(true);
     return clonedElement
 };
 
@@ -69,15 +68,13 @@ const resetForm = (form) => {
 }
 const openPopup = (popupElement) => {
     popupElement.classList.add('popup_opened');
-    document.addEventListener('keydown', escClickHandler);
-    popupElement.addEventListener('mousedown', overlayClickHandler);
+    document.addEventListener('keydown', (evt) => {
+        escClickHandler(evt);
+    });
 }
 
-const closePopup = () => {
-    popupList.forEach((popupElement) => {
-        popupElement.classList.remove('popup_opened');
-        popupElement.removeEventListener('mousedown', overlayClickHandler);
-    });
+const closePopup = (popupElement) => {
+    popupElement.classList.remove('popup_opened');
     document.removeEventListener('keydown', escClickHandler);
 }
 
@@ -95,13 +92,18 @@ const initDeleteButtonClickHandler = (deleteButton) => {
 
 const initClosePopupHandler = () => {
     closeButtonList.forEach((closeBtn) => {
-        closeBtn.addEventListener('click', closePopup);
+        let popupElement = closeBtn.closest('.popup')
+        closeBtn.addEventListener('click', () => {
+            closePopup(popupElement);
+        });
     })
 }
 
 const transferMetaDataToPopup = (elementImage) => {
     popupImageSrc.src = elementImage.getAttribute('src');
+    popupImageSrc.alt = elementImage.getAttribute('alt');
     popupImageDescription.textContent = elementImage.getAttribute('alt');
+
 }
 
 const initPopupImageHandler = (elementImage) => {
@@ -112,37 +114,34 @@ const initPopupImageHandler = (elementImage) => {
 }
 
 const initTHisCard = (card) => {
-    const likeButton = card.querySelector('.' + listElementSelectors.ELEMENTLIKE);
-    const deleteButton = card.querySelector('.' + listElementSelectors.ElEMENTDELETE);
-    const elementImage = card.querySelector('.' + listElementSelectors.ELEMENTIMAGE);
+    const likeButton = card.querySelector('.' + listElementClasses.ELEMENTLIKE);
+    const deleteButton = card.querySelector('.' + listElementClasses.ElEMENTDELETE);
+    const elementImage = card.querySelector('.' + listElementClasses.ELEMENTIMAGE);
 
     initPopupImageHandler(elementImage);
     initLikeButtonClickHandler(likeButton);
     initDeleteButtonClickHandler(deleteButton);
 }
 
-const createCard = (destination, initCardName, initCardSrc) => {
+const createCard = (initCardName, initCardSrc) => {
     const card = cloneTemplate();
-
-    card.querySelector('.' + listElementSelectors.ELEMENTIMAGE).src = initCardSrc;
-    card.querySelector('.' + listElementSelectors.ELEMENTNAME).textContent = initCardName;
-    card.querySelector('.' + listElementSelectors.ELEMENTIMAGE).alt = initCardName;
-
-    destination.prepend(card);
+    card.querySelector('.' + listElementClasses.ELEMENTIMAGE).src = initCardSrc;
+    card.querySelector('.' + listElementClasses.ELEMENTNAME).textContent = initCardName;
+    card.querySelector('.' + listElementClasses.ELEMENTIMAGE).alt = initCardName;
     initTHisCard(card);
+    return card;
 };
 
+const renderCard = (cardName, cardSrc) => {
+    elementList.prepend(createCard(cardName, cardSrc));
+}
+
 initialCards.forEach((cardItem) => {
-    createCard(elementList, cardItem.name, cardItem.link);
+    renderCard(cardItem.name, cardItem.link);
 });
 
 initClosePopupHandler();
 
-const addCardToPage = (evt) => {
-    evt.preventDefault();
-    createCard(elementList, getInputValue(inputCardName), getInputValue(inputCardSrc));
-    closePopup();
-}
 
 const transferMetaDataToInput = () => {
     inputName.value = profileName.textContent.trim();
@@ -157,32 +156,47 @@ editButton.addEventListener('click', () => {
     openPopup(popupEdit);
 })
 
-
-
-const handleFormSubmit = (evt) => {
+const handleEditFormSubmit = (evt) => {
     evt.preventDefault();
     profileName.textContent = getInputValue(inputName);
     profileJob.textContent = getInputValue(inputDescription);
-    closePopup();
+    const popupElement = document.querySelector('.popup_opened');
+    closePopup(popupElement);
 };
 
+const handleRenderCard = (evt) => {
+    evt.preventDefault();
+    renderCard(getInputValue(inputCardName), getInputValue(inputCardSrc));
+    const popupElement = document.querySelector('.popup_opened');
+    closePopup(popupElement);
+}
+
 formAdd.addEventListener('submit', (evt) => {
-    addCardToPage(evt);
+    handleRenderCard(evt);
     resetForm(formAdd);
 });
 
-formEdit.addEventListener('submit', handleFormSubmit);
+formEdit.addEventListener('submit', handleEditFormSubmit);
 
 const overlayClickHandler = (evt) => {
     if (evt.target.classList.contains('popup')) {
-        closePopup();
+        const popup = document.querySelector('.popup_opened');
+        closePopup(popup);
     }
 }
 
 const escClickHandler = (evt) => {
     if (evt.key === "Escape") {
-        closePopup();
+        const popupElement = document.querySelector('.popup_opened');
+        closePopup(popupElement);
     }
 }
 
-enableValidation(validationSelectors);
+popupList.forEach((popupElement) => {
+    popupElement.addEventListener('mousedown', overlayClickHandler);
+})
+
+if (inputCardName.value === undefined) {
+    alert('пусто')
+}
+enableValidation(settings);

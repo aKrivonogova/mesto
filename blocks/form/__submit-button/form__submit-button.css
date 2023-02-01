@@ -15,16 +15,17 @@
     margin-bottom: 37px;
 }
 
-.form__submit-button:hover {
+.form__submit-button:not([disabled]):hover {
     opacity: 0.8;
     transition: opacity 0.2s linear;
     cursor: pointer;
 }
 
 .form__submit-button:disabled {
-    background-color:#F7F7F7;
+    background: #FFFFFF;
     color: rgba(0, 0, 0, .2);
     border: 1px solid rgba(0, 0, 0, .2);
+    cursor: default;
 }
 
 @media (max-width: 600px) {

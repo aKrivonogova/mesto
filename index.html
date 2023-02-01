@@ -69,12 +69,12 @@
                 <button class="popup__close-button" type="button">
                 </button>
                 <h2 class="popup__title">Новое место</h2>
-                <form novalidate action="#" method="post" class="form form_function_add" name="formAddCard" id="formAdd">
+                <form  action="#" method="post" class="form form_function_add" name="formAddCard" id="formAdd" novalidate>
                     <input name="cardName" type="text" id="cardName" class="form__input" placeholder="Название" required
                         minlength="2" maxlength="30">
                     <span class="form__input-error" id="cardName-error"></span>
-                    <input name="cardImageSrc" type="url" id="cardImageSrc" class="form__input"
-                        placeholder="Ссылка на картинку" required>
+                    <input required name="cardImageSrc" type="url" id="cardImageSrc" class="form__input"
+                        placeholder="Ссылка на картинку">
                     <span class="form__input-error" id="cardImageSrc-error"></span>
                     <button type="submit" class="form__submit-button" id="saveCardButton">Создать</button>
                 </form>
