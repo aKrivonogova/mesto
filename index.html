@@ -47,12 +47,14 @@
                 </button>
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <form novalidate action="#" method="post" class="form form_function_edit" name="formEdit" id="formEdit">
-                    <input name="username" type="text" id="userName" class="form__input" required minlength="2"
-                        maxlength="40" placeholder="Имя">
-                    <span class="form__input-error" id="userName-error"></span>
-                    <input name="description" type="text" id="userDescription" class="form__input" required
-                        minlength="2" maxlength="200" placeholder="О себе">
-                    <span class="form__input-error" id="userDescription-error"></span>
+                    <fieldset class="form__fieldset">
+                        <input name="username" type="text" id="userName" class="form__input" required minlength="2"
+                            maxlength="40" placeholder="Имя">
+                        <span class="form__input-error" id="userName-error"></span>
+                        <input name="description" type="text" id="userDescription" class="form__input" required
+                            minlength="2" maxlength="200" placeholder="О себе">
+                        <span class="form__input-error" id="userDescription-error"></span>
+                    </fieldset>
                     <button type="submit" class="form__submit-button" id="saveButton">Сохранить</button>
                 </form>
             </div>
@@ -69,13 +71,16 @@
                 <button class="popup__close-button" type="button">
                 </button>
                 <h2 class="popup__title">Новое место</h2>
-                <form  action="#" method="post" class="form form_function_add" name="formAddCard" id="formAdd" novalidate>
-                    <input name="cardName" type="text" id="cardName" class="form__input" placeholder="Название" required
-                        minlength="2" maxlength="30">
-                    <span class="form__input-error" id="cardName-error"></span>
-                    <input required name="cardImageSrc" type="url" id="cardImageSrc" class="form__input"
-                        placeholder="Ссылка на картинку">
-                    <span class="form__input-error" id="cardImageSrc-error"></span>
+                <form action="#" method="post" class="form form_function_add" name="formAddCard" id="formAdd"
+                    novalidate>
+                    <fieldset class="form__fieldset">
+                        <input name="cardName" type="text" id="cardName" class="form__input" placeholder="Название"
+                            required minlength="2" maxlength="30">
+                        <span class="form__input-error" id="cardName-error"></span>
+                        <input required name="cardImageSrc" type="url" id="cardImageSrc" class="form__input"
+                            placeholder="Ссылка на картинку">
+                        <span class="form__input-error" id="cardImageSrc-error"></span>
+                    </fieldset>
                     <button type="submit" class="form__submit-button" id="saveCardButton">Создать</button>
                 </form>
             </div>
@@ -94,7 +99,7 @@
     <script src="./scripts/initialCards.js"></script>
     <script src="./scripts/validate.js"></script>
     <script src="./scripts/script.js"></script>
-   
+
 </body>
 
 </html>

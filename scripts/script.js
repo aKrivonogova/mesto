@@ -21,7 +21,7 @@ const listElementClasses = {
     "ElEMENTDELETE": "element__delete"
 }
 
-const settings = {
+const config = {
     formSelector: '.form',
     inputSelector: '.form__input',
     submitButtonSelector: '.form__submit-button',
@@ -196,7 +196,5 @@ popupList.forEach((popupElement) => {
     popupElement.addEventListener('mousedown', overlayClickHandler);
 })
 
-if (inputCardName.value === undefined) {
-    alert('пусто')
-}
-enableValidation(settings);
+
+enableValidation(config);
