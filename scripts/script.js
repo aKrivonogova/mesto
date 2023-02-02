@@ -68,14 +68,12 @@ const resetForm = (form) => {
 }
 const openPopup = (popupElement) => {
     popupElement.classList.add('popup_opened');
-    document.addEventListener('keydown', (evt) => {
-        escClickHandler(evt);
-    });
+    document.addEventListener('keydown', closeByEsc);
 }
 
 const closePopup = (popupElement) => {
     popupElement.classList.remove('popup_opened');
-    document.removeEventListener('keydown', escClickHandler);
+    document.removeEventListener('keydown', closeByEsc);
 }
 
 const initLikeButtonClickHandler = (likeButton) => {
@@ -92,7 +90,7 @@ const initDeleteButtonClickHandler = (deleteButton) => {
 
 const initClosePopupHandler = () => {
     closeButtonList.forEach((closeBtn) => {
-        let popupElement = closeBtn.closest('.popup')
+        const popupElement = closeBtn.closest('.popup')
         closeBtn.addEventListener('click', () => {
             closePopup(popupElement);
         });
@@ -160,15 +158,13 @@ const handleEditFormSubmit = (evt) => {
     evt.preventDefault();
     profileName.textContent = getInputValue(inputName);
     profileJob.textContent = getInputValue(inputDescription);
-    const popupElement = document.querySelector('.popup_opened');
-    closePopup(popupElement);
+    closePopup(popupEdit);
 };
 
 const handleRenderCard = (evt) => {
     evt.preventDefault();
     renderCard(getInputValue(inputCardName), getInputValue(inputCardSrc));
-    const popupElement = document.querySelector('.popup_opened');
-    closePopup(popupElement);
+    closePopup(popupAdd);
 }
 
 formAdd.addEventListener('submit', (evt) => {
@@ -180,12 +176,11 @@ formEdit.addEventListener('submit', handleEditFormSubmit);
 
 const overlayClickHandler = (evt) => {
     if (evt.target.classList.contains('popup')) {
-        const popup = document.querySelector('.popup_opened');
-        closePopup(popup);
+        closePopup(evt.target);
     }
 }
 
-const escClickHandler = (evt) => {
+function closeByEsc(evt) {
     if (evt.key === "Escape") {
         const popupElement = document.querySelector('.popup_opened');
         closePopup(popupElement);
