@@ -20,10 +20,10 @@ const inputCardSrc = document.querySelector('input[name="cardImageSrc"]');
 const formAdd = document.querySelector('.form_function_add');
 const formEdit = document.querySelector('.form_function_edit')
 
-const editButton = document.querySelector('.profile__edit-button')
-const addButton = document.querySelector('.profile__add-button');
+const buttonEditProfile = document.querySelector('.profile__edit-button')
+const buttonAddElement = document.querySelector('.profile__add-button');
 
-const closeButtonsList = document.querySelectorAll('.popup__close-button')
+const buttonsCloseList = document.querySelectorAll('.popup__close-button')
 const cardList = document.querySelector('.elements__list');
 
 const config = {
@@ -34,18 +34,18 @@ const config = {
     errorClass: 'form__input-error_active'
 }
 
-const addCardFormValidation = new FormValidator(config, formAdd);
-addCardFormValidation.enableValidation();
-const editProfileFormValidation = new FormValidator(config, formEdit)
-editProfileFormValidation.enableValidation();
+const cardAddFormValidation = new FormValidator(config, formAdd);
+cardAddFormValidation.enableValidation();
+const profileEditFormValidation = new FormValidator(config, formEdit)
+profileEditFormValidation.enableValidation();
 
 function renderCard(card) {
     cardList.prepend(card);
 }
 
 initialCards.forEach(item => {
-    let cardItem = new Card('mesto', item.name, item.link);
-    renderCard(cardItem.generateCard());
+    const cardItem = createCard(item.name, item.link);
+    renderCard(cardItem);
 })
 
 
@@ -60,7 +60,7 @@ function closePopup(popupElement) {
 }
 
 function initClosePopupHandler() {
-    closeButtonsList.forEach((closeBtn) => {
+    buttonsCloseList.forEach((closeBtn) => {
         const popupElement = closeBtn.closest('.popup')
         closeBtn.addEventListener('click', () => {
             closePopup(popupElement);
@@ -81,11 +81,11 @@ const overlayClickHandlers = (evt) => {
     }
 }
 
-addButton.addEventListener('click', () => {
+buttonAddElement.addEventListener('click', () => {
     openPopup(popupAdd);
 })
 
-editButton.addEventListener('click', () => {
+buttonEditProfile.addEventListener('click', () => {
     transferMetaDataToInput();
     openPopup(popupEdit);
 })
@@ -96,15 +96,15 @@ function getInputValue(inputElement) {
 function resetForm(form) {
     form.reset();
 }
-function createCard(cardName, cardSrc) {
-    const newCard = new Card('mesto', cardName, cardSrc);
-    return newCard;
+
+function createCard(cardName, cardILink) {
+    return new Card('mesto', cardName, cardILink).generateCard();
 }
 
 function handleRenderCard(evt) {
     evt.preventDefault();
     const newCard = createCard(getInputValue(inputCardName), getInputValue(inputCardSrc))
-    renderCard(newCard.generateCard());
+    renderCard(newCard);
     closePopup(popupAdd);
 }
 
