@@ -46,8 +46,8 @@ buttonAddElement.addEventListener('click', () => {
 
 const userInfo = new UserInfo({ userNameSelector: profileNameSelector, userDescriptionSelector: profileDescriptionSelector });
 
-const popupWithEditForm = new PopupWithForm(popupEdit, () => {
-    userInfo.setUserInfo(inputName, inputDescription)
+const popupWithEditForm = new PopupWithForm(popupEdit, (inputValues) => {
+    userInfo.setUserInfo(inputValues.username, inputValues.description);
 })
 popupWithEditForm.setEventListeners();
 

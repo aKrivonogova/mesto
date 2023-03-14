@@ -3,16 +3,16 @@ export default class Card {
         this._name = data.name;
         this._link = data.link;
         this._handleCardClick = handleCardClick;
-        this._cardSelector = document.getElementById(cardSelector)
+        this._cardTemplate = document.getElementById(cardSelector)
     }
     _getTemplate() {
-        this._cardElement = this._cardSelector
+        this._cardElement = this._cardTemplate
             .content
             .querySelector('.element')
             .cloneNode(true);
     }
 
-    _isLikeCard() {
+    _toggleLike() {
         this._elementLike.classList.toggle('element__like_active');
     }
     _deleteCard() {
@@ -20,7 +20,7 @@ export default class Card {
     }
     _setEventListeners() {
         this._elementLike.addEventListener('click', () => {
-            this._isLikeCard();
+            this._toggleLike();
         });
         this._elementDelete.addEventListener('click', () => {
             this._deleteCard();
