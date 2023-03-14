@@ -9,7 +9,9 @@
 * JavaScript
 * Position
 * Адаптивная верстка
-[Проект на GitHub Pages](https://akrivonogova.github.io/mesto/)
+[Проект на GitHub Pages]
+
+(https://akrivonogova.github.io/mesto/)
 
 
 

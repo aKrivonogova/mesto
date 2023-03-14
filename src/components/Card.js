@@ -1,17 +1,15 @@
-import { openPopup, popupImage, popupImageSrc, popupImageDescription } from './index.js'
-
-class Card {
-    constructor(template, name, link) {
-        this._template = template;
-        this._name = name;
-        this._link = link;
+export default class Card {
+    constructor({ data, handleCardClick }, cardSelector) {
+        this._name = data.name;
+        this._link = data.link;
+        this._handleCardClick = handleCardClick;
+        this._cardSelector = document.getElementById(cardSelector)
     }
     _getTemplate() {
-        const template = document.getElementById(this._template)
+        this._cardElement = this._cardSelector
             .content
             .querySelector('.element')
             .cloneNode(true);
-        return template;
     }
 
     _isLikeCard() {
@@ -28,12 +26,12 @@ class Card {
             this._deleteCard();
         })
         this._elementImage.addEventListener('click', () => {
-            this._handlerPopupImageOpen();
+            this._handleCardClick({ name: this._name, link: this._link })
         })
     }
     generateCard() {
-        this._cardElement = this._getTemplate();
-        
+        this._getTemplate();
+
         this._elementImage = this._cardElement.querySelector('.element__image');
         this._elementLike = this._cardElement.querySelector('.element__like');
         this._elementDelete = this._cardElement.querySelector('.element__delete');
@@ -47,13 +45,5 @@ class Card {
 
         return this._cardElement;
     }
-    _handlerPopupImageOpen() {
-        popupImageSrc.src = this._link;
-        popupImage.alt = this._name;
-        popupImageDescription.textContent = this._name;
-        openPopup(popupImage);
-    }
 }
-
-export default Card;
 
