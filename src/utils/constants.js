@@ -36,6 +36,14 @@ const config = {
     errorClass: 'form__input-error_active'
 }
 
+const options = {
+    url: 'https://mesto.nomoreparties.co/v1/cohort-61',
+    headers: {
+        authorization: 'bfd84cb4-18b1-46f8-b826-36dbd379cdad',
+        'Content-Type': 'application/json'
+    }
+};
+
 const initialCards = [
     {
         name: 'Архыз',
@@ -64,4 +72,4 @@ const initialCards = [
 ];
 
 
-export { templateSelector, profileNameSelector, profileDescriptionSelector, elementsListSelector, config, popupEdit, buttonEditProfile, buttonAddElement, initialCards, formAdd, formEdit, popupImage, popupAdd, inputName, inputDescription }; 
+export { options, templateSelector, profileNameSelector, profileDescriptionSelector, elementsListSelector, config, popupEdit, buttonEditProfile, buttonAddElement, initialCards, formAdd, formEdit, popupImage, popupAdd, inputName, inputDescription }; 

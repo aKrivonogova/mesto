@@ -5,8 +5,9 @@ import PopupWithImage from './../components/PopupWithImage.js'
 import Section from './../components/Section.js'
 import PopupWithForm from './../components/PopupWithForm.js'
 import UserInfo from './../components/UserInfo.js'
+import Api from './../components/Api.js'
 
-import { templateSelector, profileNameSelector, profileDescriptionSelector, elementsListSelector, config, buttonEditProfile, buttonAddElement, initialCards, formAdd, formEdit, popupEdit, popupImage, popupAdd, inputName, inputDescription } from '../utils/constants.js'
+import { options, templateSelector, profileNameSelector, profileDescriptionSelector, elementsListSelector, config, buttonEditProfile, buttonAddElement, initialCards, formAdd, formEdit, popupEdit, popupImage, popupAdd, inputName, inputDescription } from '../utils/constants.js'
 
 const cardAddFormValidation = new FormValidator(config, formAdd);
 cardAddFormValidation.enableValidation();
@@ -57,3 +58,7 @@ buttonEditProfile.addEventListener('click', () => {
     inputDescription.value = userData.description;
     popupWithEditForm.open();
 })
+
+
+const api = new Api(options);
+console.log(api.getData()); 
