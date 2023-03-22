@@ -1,32 +1,21 @@
 const popupImage = document.querySelector('.popup_function_image');
-const popupImageSrc = document.querySelector('.popup__image');
-const popupImageDescription = document.querySelector('.popup__image-description');
-const popupList = document.querySelectorAll('.popup');
+const popupEditAvatar = document.querySelector('.popup_function_avatar-edit');
 const popupAdd = document.querySelector('.popup_function_add');
 const popupEdit = document.querySelector('.popup_function_edit');
-
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__description');
-
-const inputName = document.querySelector('input[name="username"]');
-const inputDescription = document.querySelector('input[name="description"]');
-const inputCardName = document.querySelector('input[name="cardName"]');
-const inputCardSrc = document.querySelector('input[name="cardImageSrc"]');
-
-const formAdd = document.querySelector('.form_function_add');
+const popupDeleteConfirm = document.querySelector('.popup_function_delete');
 const formEdit = document.querySelector('.form_function_edit')
-
+const formEditAvatar = document.querySelector('.form_function_edit-avatar');
+const inputName = formEdit.querySelector('input[name="name"]');
+const inputDescription = formEdit.querySelector('input[name="description"]');
+const formAdd = document.querySelector('.form_function_add');
 const buttonEditProfile = document.querySelector('.profile__edit-button')
 const buttonAddElement = document.querySelector('.profile__add-button');
-
-const buttonsCloseList = document.querySelectorAll('.popup__close-button')
-const cardList = document.querySelector('.elements__list');
-
+const buttonEditAvatar = document.querySelector('.profile__avatar-edit-button');
 const templateSelector = 'mesto';
 const elementsListSelector = '.elements__list';
-
 const profileNameSelector = '.profile__name';
 const profileDescriptionSelector = '.profile__description'
+const profileAvatarSelector = '.profile__avatar';
 
 const config = {
     formSelector: '.form',
@@ -44,32 +33,5 @@ const options = {
     }
 };
 
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
 
-
-export { options, templateSelector, profileNameSelector, profileDescriptionSelector, elementsListSelector, config, popupEdit, buttonEditProfile, buttonAddElement, initialCards, formAdd, formEdit, popupImage, popupAdd, inputName, inputDescription }; 
+export { formEditAvatar, buttonEditAvatar, popupEditAvatar, profileAvatarSelector, popupDeleteConfirm, options, templateSelector, profileNameSelector, profileDescriptionSelector, elementsListSelector, config, popupEdit, buttonEditProfile, buttonAddElement, formAdd, formEdit, popupImage, popupAdd, inputName, inputDescription }; 

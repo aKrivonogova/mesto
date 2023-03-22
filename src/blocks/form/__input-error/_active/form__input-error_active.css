@@ -14,6 +14,10 @@
     top: 90px;
 }
 
+.form__input-error_active:first-of-type {
+    top: 32px;
+}
+
 @media (max-width: 600px) {
     .form__input-error_active {
         font-size: 10px;

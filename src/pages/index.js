@@ -6,50 +6,35 @@ import Section from './../components/Section.js'
 import PopupWithForm from './../components/PopupWithForm.js'
 import UserInfo from './../components/UserInfo.js'
 import Api from './../components/Api.js'
+import PopupWithConfirmDelete from '../components/PopupWithConfirmDelete.js';
 
-import { options, templateSelector, profileNameSelector, profileDescriptionSelector, elementsListSelector, config, buttonEditProfile, buttonAddElement, initialCards, formAdd, formEdit, popupEdit, popupImage, popupAdd, inputName, inputDescription } from '../utils/constants.js'
+import { formEditAvatar, buttonEditAvatar, popupEditAvatar, profileAvatarSelector, popupDeleteConfirm, options, templateSelector, profileNameSelector, profileDescriptionSelector, elementsListSelector, config, buttonEditProfile, buttonAddElement, formAdd, formEdit, popupEdit, popupImage, popupAdd, inputName, inputDescription } from '../utils/constants.js'
 
+/* --------------------Валидация форм --------------*/
 const cardAddFormValidation = new FormValidator(config, formAdd);
 cardAddFormValidation.enableValidation();
 const profileEditFormValidation = new FormValidator(config, formEdit)
 profileEditFormValidation.enableValidation();
+const avatarEditFormValidation = new FormValidator(config, formEditAvatar);
+avatarEditFormValidation.enableValidation();
 
-const popupWithImage = new PopupWithImage(popupImage);
-popupWithImage.setEventListeners();
 
-function createCard(data) {
-    return new Card({
-        data: data, handleCardClick: () => {
-            popupWithImage.open(data)
-        }
-    }, templateSelector).generateCard();
-}
+/* Работа с данными пользователя*/
 
-const cardItemsList = new Section({
-    items: initialCards, renderer: (item) => {
-        const card = createCard(item);
-        cardItemsList.addItem(card);
-    }
-}, elementsListSelector);
+const userInfo = new UserInfo({ userNameSelector: profileNameSelector, userDescriptionSelector: profileDescriptionSelector, userAvatarSelector: profileAvatarSelector });
 
-cardItemsList.renderItems();
-
-const popupWithAddForm = new PopupWithForm(popupAdd, (inputValues) => {
-    const card = createCard(inputValues);
-    cardItemsList.addItem(card);
-})
-
-popupWithAddForm.setEventListeners();
-
-buttonAddElement.addEventListener('click', () => {
-    popupWithAddForm.open();
-})
-
-const userInfo = new UserInfo({ userNameSelector: profileNameSelector, userDescriptionSelector: profileDescriptionSelector });
+/* Устанавливаем данные пользователя через API */
 
 const popupWithEditForm = new PopupWithForm(popupEdit, (inputValues) => {
-    userInfo.setUserInfo(inputValues.username, inputValues.description);
+    popupWithEditForm.renderLoading(true);
+    api.setUserInfoByAPI(inputValues)
+        .then(() => {
+            popupWithEditForm.close()
+        })
+        .catch((error) => console.log(error))
+        .finally(() => popupWithEditForm.renderLoading(false));
 })
+
 popupWithEditForm.setEventListeners();
 
 buttonEditProfile.addEventListener('click', () => {
@@ -59,6 +44,125 @@ buttonEditProfile.addEventListener('click', () => {
     popupWithEditForm.open();
 })
 
+/* -------------Изменяем аватар пользователя------------------------------- */
+const poputWithEditAvatarForm = new PopupWithForm(popupEditAvatar, (inputValues) => {
+    poputWithEditAvatarForm.renderLoading(true)
+    api.setUserAvatarByAPI(inputValues)
+        .then(() => {
+            poputWithEditAvatarForm.close();
+        })
+        .catch((error) => console.log(error))
+        .finally(() => poputWithEditAvatarForm.renderLoading(false))
+})
 
+poputWithEditAvatarForm.setEventListeners();
+
+buttonEditAvatar.addEventListener('click', () => {
+    poputWithEditAvatarForm.open();
+})
+
+
+/* Работа с карточками */
+
+const popupDelete = new PopupWithConfirmDelete(popupDeleteConfirm);
+popupDelete.setEventListeners();
+
+const popupWithImage = new PopupWithImage(popupImage);
+popupWithImage.setEventListeners();
+
+function handleCardClick(data) {
+    popupWithImage.open(data);
+}
+
+const popupWithAddForm = new PopupWithForm(popupAdd, (inputValues) => {
+    popupWithAddForm.renderLoading(true);
+    api.addCard(inputValues)
+        .then((data) => {
+            const card = createCard(data);
+            cardItemsList.addItem(card);
+            popupWithAddForm.close();
+        }).catch((error) => console.log(error))
+        .finally(() => popupWithAddForm.renderLoading(false))
+})
+popupWithAddForm.setEventListeners();
+
+buttonAddElement.addEventListener('click', () => {
+    popupWithAddForm.open();
+})
+
+function handleCardDeleteConfirm(data, card) {
+    popupDelete.open();
+    popupDelete.setSubmitAction(() => {
+        popupDelete.renderLoading(true)
+        api.deleteCard(data._id)
+            .then(() => {
+                card.removeCard();
+                popupDelete.close();
+            })
+            .catch((error) => console.log(error))
+            .finally(() => popupDelete.renderLoading(false))
+    });
+}
+
+function handleLikeClick(data, card) {
+    if (!(card.likedByUser())) {
+        api.setLike(card._id)
+            .then((data) => {
+                card.updateLikesCount(data.likes);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    } else {
+        api.deleteLike(card._id)
+            .then((data) => {
+                card.updateLikesCount(data.likes);
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    };
+}
+
+function createCard(data) {
+    const card = new Card({
+        data: data,
+        handleCardClick,
+        handleLikeClick: () => {
+            handleLikeClick(data, card)
+        },
+        handleCardDelete: () => {
+            handleCardDeleteConfirm(data, card)
+        }
+    }, templateSelector, userId);
+    return card.generateCard();
+}
+
+const cardItemsList = new Section({
+    renderer: (item) => {
+        const card = createCard(item);
+        cardItemsList.addItem(card);
+    }
+}, elementsListSelector);
+
+let userId;
 const api = new Api(options);
-console.log(api.getData()); 
+
+api.getData()
+    .then(([cards, userData]) => {
+        userInfo.setUserInfo(userData);
+        userId = userData._id;
+        cardItemsList.renderItems(cards);
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+
+
+
+
+
+
+
+
+

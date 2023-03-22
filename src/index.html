@@ -16,7 +16,11 @@
         <main class="main">
             <section class="profile">
                 <div class="profile__avatar-container">
-                    <img class="profile__avatar" src="<%=require('./images/image.jpg')%>" alt="картинка аватар профиля">
+                    <div class="profile__avatar-content">
+                        <img class="profile__avatar" src="<%=require('./images/image.jpg')%>"
+                            alt="картинка аватар профиля">
+                        <button class="profile__avatar-edit-button"></button>
+                    </div>
                     <div class="profile__info">
                         <div class="profile__head">
                             <h1 class="profile__name">
@@ -47,7 +51,7 @@
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <form novalidate action="#" method="post" class="form form_function_edit" name="formEdit" id="formEdit">
                     <fieldset class="form__fieldset">
-                        <input name="username" type="text" id="userName" class="form__input" required minlength="2"
+                        <input name="name" type="text" id="userName" class="form__input" required minlength="2"
                             maxlength="40" placeholder="Имя">
                         <span class="form__input-error" id="userName-error"></span>
                         <input name="description" type="text" id="userDescription" class="form__input" required
@@ -55,6 +59,35 @@
                         <span class="form__input-error" id="userDescription-error"></span>
                     </fieldset>
                     <button type="submit" class="form__submit-button" id="saveButton">Сохранить</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="popup popup_function_delete">
+            <div class="popup__container">
+                <button class="popup__close-button" type="button"></button>
+                <h2 class="popup__title popup__title_confirm-delete">Вы уверены?</h2>
+                <form class="form" action="#" method="post" novalidate name="formConfirmDelete">
+                    <fieldset class="form__fieldset">
+                        <button type="submit" class="form__submit-button form__submit-button_function_confirm-delete"
+                            id="deleteButton_">Да</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+        <div class="popup popup_function_avatar-edit">
+            <div class="popup__container">
+                <button class="popup__close-button" type="button"></button>
+                <h2 class="popup__title popup__title_avatar-edit">Обновить аватар</h2>
+                <form action="post" class="form form_function_edit-avatar" novalidate name="formAvatarEdit">
+                    <fieldset class="form__fieldset">
+                        <input required name="avatar" type="url" id="avatarLink" class="form__input"
+                            placeholder="Ссылка на картинку">
+                        <span class="form__input-error" id="avatarLink-error"></span>
+                        <button type="submit" class="form__submit-button form__submit-button_function_edit-profile"
+                            id="saveAvatarButton">Сохранить</button>
+                    </fieldset>
                 </form>
             </div>
         </div>
@@ -73,8 +106,8 @@
                 <form action="#" method="post" class="form form_function_add" name="formAddCard" id="formAdd"
                     novalidate>
                     <fieldset class="form__fieldset">
-                        <input name="name" type="text" id="cardName" class="form__input" placeholder="Название"
-                            required minlength="2" maxlength="30">
+                        <input name="name" type="text" id="cardName" class="form__input" placeholder="Название" required
+                            minlength="2" maxlength="30">
                         <span class="form__input-error" id="cardName-error"></span>
                         <input required name="link" type="url" id="cardImageSrc" class="form__input"
                             placeholder="Ссылка на картинку">
@@ -90,7 +123,10 @@
                 <button class="element__delete" type="button" aria-label="удалить данную карточку"></button>
                 <div class="element__description-container">
                     <h2 class="element__name"></h2>
-                    <button type="button" class="element__like" aria-label="лайкнуть данную карточку"></button>
+                    <div class="element-like__container">
+                        <button type="button" class="element__like" aria-label="лайкнуть данную карточку"></button>
+                        <span class="element__like-count">0</span>
+                    </div>
                 </div>
             </li>
         </template>

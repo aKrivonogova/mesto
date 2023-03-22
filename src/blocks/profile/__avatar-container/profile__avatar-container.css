@@ -1,5 +1,6 @@
 .profile__avatar-container {
     display: flex;
+    position: relative;
 }
 
 @media (max-width: 660px) {
