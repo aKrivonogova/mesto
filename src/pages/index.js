@@ -10,6 +10,20 @@ import PopupWithConfirmDelete from '../components/PopupWithConfirmDelete.js';
 
 import { formEditAvatar, buttonEditAvatar, popupEditAvatar, profileAvatarSelector, popupDeleteConfirm, options, templateSelector, profileNameSelector, profileDescriptionSelector, elementsListSelector, config, buttonEditProfile, buttonAddElement, formAdd, formEdit, popupEdit, popupImage, popupAdd, inputName, inputDescription } from '../utils/constants.js'
 
+
+let userId;
+const api = new Api(options);
+
+api.getData()
+    .then(([cards, userData]) => {
+        userInfo.setUserInfo(userData);
+        userId = userData._id;
+        cardItemsList.renderItems(cards);
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+
 /* --------------------Валидация форм --------------*/
 const cardAddFormValidation = new FormValidator(config, formAdd);
 cardAddFormValidation.enableValidation();
@@ -25,15 +39,25 @@ const userInfo = new UserInfo({ userNameSelector: profileNameSelector, userDescr
 
 /* Устанавливаем данные пользователя через API */
 
+function updateUserInfo() {
+    api.getUserInfo()
+        .then((data) => {
+            userInfo.setUserInfo(data);
+        })
+}
+
 const popupWithEditForm = new PopupWithForm(popupEdit, (inputValues) => {
     popupWithEditForm.renderLoading(true);
     api.setUserInfoByAPI(inputValues)
         .then(() => {
             popupWithEditForm.close()
+            updateUserInfo()
         })
         .catch((error) => console.log(error))
         .finally(() => popupWithEditForm.renderLoading(false));
+
 })
+
 
 popupWithEditForm.setEventListeners();
 
@@ -45,11 +69,20 @@ buttonEditProfile.addEventListener('click', () => {
 })
 
 /* -------------Изменяем аватар пользователя------------------------------- */
+
+function updateUserAvatar() {
+    api.getUserInfo()
+        .then(data => {
+            userInfo.setUserAvatar(data)
+        })
+}
+
 const poputWithEditAvatarForm = new PopupWithForm(popupEditAvatar, (inputValues) => {
     poputWithEditAvatarForm.renderLoading(true)
     api.setUserAvatarByAPI(inputValues)
         .then(() => {
             poputWithEditAvatarForm.close();
+            updateUserAvatar()
         })
         .catch((error) => console.log(error))
         .finally(() => poputWithEditAvatarForm.renderLoading(false))
@@ -145,18 +178,7 @@ const cardItemsList = new Section({
     }
 }, elementsListSelector);
 
-let userId;
-const api = new Api(options);
 
-api.getData()
-    .then(([cards, userData]) => {
-        userInfo.setUserInfo(userData);
-        userId = userData._id;
-        cardItemsList.renderItems(cards);
-    })
-    .catch((error) => {
-        console.log(error)
-    })
 
 
 
