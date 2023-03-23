@@ -14,15 +14,6 @@ import { formEditAvatar, buttonEditAvatar, popupEditAvatar, profileAvatarSelecto
 let userId;
 const api = new Api(options);
 
-api.getData()
-    .then(([cards, userData]) => {
-        userInfo.setUserInfo(userData);
-        userId = userData._id;
-        cardItemsList.renderItems(cards);
-    })
-    .catch((error) => {
-        console.log(error)
-    })
 
 /* --------------------Валидация форм --------------*/
 const cardAddFormValidation = new FormValidator(config, formAdd);
@@ -39,19 +30,12 @@ const userInfo = new UserInfo({ userNameSelector: profileNameSelector, userDescr
 
 /* Устанавливаем данные пользователя через API */
 
-function updateUserInfo() {
-    api.getUserInfo()
-        .then((data) => {
-            userInfo.setUserInfo(data);
-        })
-}
-
 const popupWithEditForm = new PopupWithForm(popupEdit, (inputValues) => {
     popupWithEditForm.renderLoading(true);
     api.setUserInfoByAPI(inputValues)
-        .then(() => {
+        .then((data) => {
             popupWithEditForm.close()
-            updateUserInfo()
+            userInfo.setUserInfo(data)
         })
         .catch((error) => console.log(error))
         .finally(() => popupWithEditForm.renderLoading(false));
@@ -70,19 +54,14 @@ buttonEditProfile.addEventListener('click', () => {
 
 /* -------------Изменяем аватар пользователя------------------------------- */
 
-function updateUserAvatar() {
-    api.getUserInfo()
-        .then(data => {
-            userInfo.setUserAvatar(data)
-        })
-}
 
 const poputWithEditAvatarForm = new PopupWithForm(popupEditAvatar, (inputValues) => {
     poputWithEditAvatarForm.renderLoading(true)
     api.setUserAvatarByAPI(inputValues)
-        .then(() => {
+        .then((data) => {
             poputWithEditAvatarForm.close();
-            updateUserAvatar()
+            userInfo.setUserAvatar(data);
+
         })
         .catch((error) => console.log(error))
         .finally(() => poputWithEditAvatarForm.renderLoading(false))
@@ -91,9 +70,9 @@ const poputWithEditAvatarForm = new PopupWithForm(popupEditAvatar, (inputValues)
 poputWithEditAvatarForm.setEventListeners();
 
 buttonEditAvatar.addEventListener('click', () => {
+    avatarEditFormValidation.setInitialState();
     poputWithEditAvatarForm.open();
 })
-
 
 /* Работа с карточками */
 
@@ -113,13 +92,16 @@ const popupWithAddForm = new PopupWithForm(popupAdd, (inputValues) => {
         .then((data) => {
             const card = createCard(data);
             cardItemsList.addItem(card);
+       
             popupWithAddForm.close();
+         
         }).catch((error) => console.log(error))
         .finally(() => popupWithAddForm.renderLoading(false))
 })
 popupWithAddForm.setEventListeners();
 
 buttonAddElement.addEventListener('click', () => {
+    cardAddFormValidation.setInitialState();
     popupWithAddForm.open();
 })
 
@@ -178,7 +160,18 @@ const cardItemsList = new Section({
     }
 }, elementsListSelector);
 
-
+api.getData()
+    .then(([cards, userData]) => {
+        userInfo.setUserInfo(userData);
+        userId = userData._id;
+        if (userData) {
+            userInfo.setUserInfo(userData)
+        }
+        cardItemsList.renderItems(cards);
+    })
+    .catch((error) => {
+        console.log(error)
+    })
 
 
 
